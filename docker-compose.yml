@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  app:
+    image: sree0807/dockerdemo:0.0.1
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL : jdbc:mysql://db:3306/dockerdb?autoReconnect=true&&allowPublicKeyRetrieval=true&&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      depends_on: db
+
+  db:
+    image: mysql:8.3.0
+    environment:
+      MYSQL_DATABASE: dockerdb
+      DATABASE_PORT: 3306
+      MYSQL_USER: sree
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_PASSWORD: Sree@pwd
+
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
